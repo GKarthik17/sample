@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node* nxtaddress;
+}node;
+
+node* create_node(int data){
+    node* newnode = (node *)malloc(sizeof(node));
+    newnode->data = data;
+    newnode->nxtaddress = NULL;
+    return newnode;
+}
+
+void insert_at_end(node** head, int data)
+{
+    node* new = create_node(data);
+    if(*head == NULL){
+        *head = new;
+        return;
+    }
+    node* temp = *head;
+    while(temp->nxtaddress != NULL){
+        temp = temp->nxtaddress;
+    }
+    temp->nxtaddress = new;
+}
+int isEmpty(node* head){
+    if(head == NULL){
+        return 1;
+    }else {
+        return 0;
+    }
+}
+int delete_at_beggining(node** head){
+    node* temp = *head;
+    int k = temp->data;
+    *head = temp->nxtaddress;
+    free(temp);
+    return k;
+}
+
+void print_linkedlist(node* head)
+{
+    node* current = head;
+    while (current != NULL) {
+        printf("[ %d ] -> ", current->data);
+        current = current->nxtaddress;
+    }
+    printf("NULL\n");
+    return;
+}
+
+int start()
+{
+    int n;
+    printf("Press\n"
+    "(1) - for Enqueuing an element in the Queue\n"
+    "(2) - for Dequeuing a element in the Queue\n"
+    "(3) - for printing all elements in the Queue\n"
+    "(0) - for Aborting the task\n");
+    scanf("%d", &n);
+    return n;
+}
+
+int main()
+{
+    node *head = NULL;
+    printf("Starting the Queue Implementation of Size 5\n");
+    while(1){
+        int temp = 0, num;
+        printf("-------------------------------------------\n");
+        int n = start();
+        printf("-------------------------------------------\n");
+        if(n == 1){
+            printf("Enter the Value to be Enqueued: ");
+            scanf("%d", &temp);
+            insert_at_end(&head, temp);
+            printf("the %d is Enqueued in the Queue\n", temp);
+        }else if(n == 2){
+            if(isEmpty(head)){
+                printf("The Queue is Empty, Unable to Dequeue the Value\n");
+                continue;
+            }
+            num = delete_at_beggining(&head);
+            printf("the %d is Dequeued in the Queue\n", num);
+        }else if(n == 3){
+            print_linkedlist(head);
+        }else if( n == 0){
+            printf("Aborted the Task");
+            break;
+        }else {
+            printf("Entered Wrong Input\n");
+        }
+}
+}
